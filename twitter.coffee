@@ -1,10 +1,10 @@
 twitter = Npm.require 'twitter'
 
-class TwitterStream
+class Parser
     constructor: (@stream) ->
 
-    on: (event, cb) ->
-        @stream.on event, Meteor.bindEnvironment cb
+    on: (event, listener) ->
+        @stream.on event, Meteor.bindEnvironment listener
 
 class Twitter
     constructor: (opts) ->
@@ -24,10 +24,11 @@ class Twitter
         aux = Meteor.wrapAsync @_post
         aux url, params
 
-    stream: ->
-        args = Array.prototype.slice.call arguments
-        cb = args[args.length - 1]
-        console.assert typeof cb is 'function'
-        args[args.length - 1] = (stream) ->
-            cb.call this, new TwitterStream stream
-        @twitter.stream.apply @twitter, args
+    stream: (method, params, callback) ->
+        if typeof params is 'function'
+            callback = params
+            params = {}
+        @twitter.stream.call @twitter, method, params, (stream) ->
+            callback new Parser stream
+            return
+        return
