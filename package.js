@@ -22,7 +22,8 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
+  api.use('coffeescript');
   api.use('tinytest');
   api.use('new3rs:twitter');
-  api.addFiles('twitter-tests.js');
+  api.addFiles('twitter-tests.coffee', 'server');
 });
