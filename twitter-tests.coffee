@@ -22,3 +22,13 @@ Tinytest.add 'post', (test) ->
     catch e
         test.equal e.toString(), 'Error: Status is a duplicate.'
     return
+
+Tinytest.addAsync 'stream', (test, onComplete) ->
+    client.stream 'statuses/filter', track: 'javascript', (stream) ->
+        stream.on 'data', (tweet) ->
+            test.equal typeof tweet.text, 'string'
+            onComplete()
+            return
+        stream.on 'error', (error) ->
+            throw error
+        return
