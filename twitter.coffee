@@ -4,7 +4,7 @@ class Parser
     constructor: (@stream) ->
 
     on: (event, listener) ->
-        @stream.on event, Meteor.bindEnvironment listener
+        @stream.on event, Meteor.bindEnvironment listener, "twitter stream (#{event})"
         return
 
 class Twitter
@@ -42,7 +42,7 @@ class Twitter
         if typeof params is 'function'
             callback = params
             params = {}
-        @client.stream.call @client, method, params, (stream) ->
+        @client.stream method, params, (stream) ->
             callback new Parser stream
             return
         return
