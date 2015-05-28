@@ -3,7 +3,7 @@ This package is a synchronous wrapper of [NPM twitter](https://github.com/desmon
 
 ## Installation
 
-`meteor add new3rd:twitter`
+`meteor add new3rs:twitter`
 
 ## Quick Start
 
