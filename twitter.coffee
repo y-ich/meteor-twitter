@@ -17,7 +17,11 @@ class Twitter
             params = {}
         @client[method] url, params, (error, data, response) ->
             if error?
-                [{ code, message}] = error
+                if error.length > 0
+                    [{ code, message }] = error
+                else
+                    console.log error
+                    message = 'unknown format error'
                 callback new Error(message), null
             else
                 callback null, data
